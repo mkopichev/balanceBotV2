@@ -1,0 +1,8 @@
+"./Src/common.o"
+"./Src/delayMs.o"
+"./Src/main.o"
+"./Src/stepperMotor.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Src/userLed.o"
+"./Startup/startup_stm32f103c8tx.o"

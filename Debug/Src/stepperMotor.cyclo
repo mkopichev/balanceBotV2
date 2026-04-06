@@ -1,0 +1,11 @@
+../Inc/core_cm3.h:1511:22:__NVIC_EnableIRQ	2
+../Src/stepperMotor.c:4:6:stepperABEnable	1
+../Src/stepperMotor.c:10:6:steppersABDisable	1
+../Src/stepperMotor.c:16:6:stepperABInit	1
+../Src/stepperMotor.c:47:6:stepperASetSpeed	4
+../Src/stepperMotor.c:66:6:stepperBSetSpeed	4
+../Src/stepperMotor.c:85:6:stepperASetDir	2
+../Src/stepperMotor.c:96:6:stepperBSetDir	2
+../Src/stepperMotor.c:107:6:TIM2_IRQHandler	2
+../Src/stepperMotor.c:116:6:TIM3_IRQHandler	2
+../Src/stepperMotor.c:125:6:stepperABMove	1
