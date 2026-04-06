@@ -20,25 +20,25 @@ int main(void) {
 	stepperABEnable();
 	for (;;) {
 
-//		for (uint8_t i = 0; i < 255; i++) {
-//
-//			stepperABMove(i, false);
-//			delayMs(10);
-//		}
-//		for (uint8_t i = 0; i < 255; i++) {
-//
-//			stepperABMove(255 - i, false);
-//			delayMs(10);
-//		}
-//		for (uint8_t i = 0; i < 255; i++) {
-//
-//			stepperABMove(i, true);
-//			delayMs(10);
-//		}
-//		for (uint8_t i = 0; i < 255; i++) {
-//
-//			stepperABMove(255 - i, true);
-//			delayMs(10);
-//		}
+		for (uint8_t i = 0; i < 255; i++) {
+
+			stepperABMove(i, false);
+			delayMs(10);
+		}
+		for (uint8_t i = 0; i < 255; i++) {
+
+			stepperABMove(255 - i, false);
+			delayMs(10);
+		}
+		for (uint8_t i = 0; i < 255; i++) {
+
+			stepperABMove(i, true);
+			delayMs(10);
+		}
+		for (uint8_t i = 0; i < 255; i++) {
+
+			stepperABMove(255 - i, true);
+			delayMs(10);
+		}
 	}
 }
