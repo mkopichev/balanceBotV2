@@ -992,66 +992,66 @@ void stepperASetSpeed(uint8_t setpoint) {
  8000752:	441a      	add	r2, r3
  8000754:	00d2      	lsls	r2, r2, #3
  8000756:	1ad3      	subs	r3, r2, r3
- 8000758:	b29b      	uxth	r3, r3
- 800075a:	3364      	adds	r3, #100	@ 0x64
- 800075c:	817b      	strh	r3, [r7, #10]
+ 8000758:	005b      	lsls	r3, r3, #1
+ 800075a:	b29b      	uxth	r3, r3
+ 800075c:	3364      	adds	r3, #100	@ 0x64
+ 800075e:	817b      	strh	r3, [r7, #10]
 	if (freqHz == 0) {
- 800075e:	897b      	ldrh	r3, [r7, #10]
- 8000760:	2b00      	cmp	r3, #0
- 8000762:	d108      	bne.n	8000776 <stepperASetSpeed+0x36>
+ 8000760:	897b      	ldrh	r3, [r7, #10]
+ 8000762:	2b00      	cmp	r3, #0
+ 8000764:	d108      	bne.n	8000778 <stepperASetSpeed+0x38>
 
 		TIM2->DIER &= ~TIM_DIER_UIE;   // motor stopped
- 8000764:	f04f 4380 	mov.w	r3, #1073741824	@ 0x40000000
- 8000768:	68db      	ldr	r3, [r3, #12]
- 800076a:	f04f 4280 	mov.w	r2, #1073741824	@ 0x40000000
- 800076e:	f023 0301 	bic.w	r3, r3, #1
- 8000772:	60d3      	str	r3, [r2, #12]
+ 8000766:	f04f 4380 	mov.w	r3, #1073741824	@ 0x40000000
+ 800076a:	68db      	ldr	r3, [r3, #12]
+ 800076c:	f04f 4280 	mov.w	r2, #1073741824	@ 0x40000000
+ 8000770:	f023 0301 	bic.w	r3, r3, #1
+ 8000774:	60d3      	str	r3, [r2, #12]
 		return;
- 8000774:	e023      	b.n	80007be <stepperASetSpeed+0x7e>
+ 8000776:	e023      	b.n	80007c0 <stepperASetSpeed+0x80>
 	}
 	// calculate timer period for 1MHz freq
 	uint32_t arr = (1000000UL / (2 * freqHz)) - 1;
- 8000776:	897b      	ldrh	r3, [r7, #10]
- 8000778:	005b      	lsls	r3, r3, #1
- 800077a:	461a      	mov	r2, r3
- 800077c:	4b12      	ldr	r3, [pc, #72]	@ (80007c8 <stepperASetSpeed+0x88>)
- 800077e:	fbb3 f3f2 	udiv	r3, r3, r2
- 8000782:	3b01      	subs	r3, #1
- 8000784:	60fb      	str	r3, [r7, #12]
+ 8000778:	897b      	ldrh	r3, [r7, #10]
+ 800077a:	005b      	lsls	r3, r3, #1
+ 800077c:	461a      	mov	r2, r3
+ 800077e:	4b12      	ldr	r3, [pc, #72]	@ (80007c8 <stepperASetSpeed+0x88>)
+ 8000780:	fbb3 f3f2 	udiv	r3, r3, r2
+ 8000784:	3b01      	subs	r3, #1
+ 8000786:	60fb      	str	r3, [r7, #12]
 	if (arr > 0xFFFF)
- 8000786:	68fb      	ldr	r3, [r7, #12]
- 8000788:	f5b3 3f80 	cmp.w	r3, #65536	@ 0x10000
- 800078c:	d302      	bcc.n	8000794 <stepperASetSpeed+0x54>
+ 8000788:	68fb      	ldr	r3, [r7, #12]
+ 800078a:	f5b3 3f80 	cmp.w	r3, #65536	@ 0x10000
+ 800078e:	d302      	bcc.n	8000796 <stepperASetSpeed+0x56>
 		arr = 0xFFFF;
- 800078e:	f64f 73ff 	movw	r3, #65535	@ 0xffff
- 8000792:	60fb      	str	r3, [r7, #12]
+ 8000790:	f64f 73ff 	movw	r3, #65535	@ 0xffff
+ 8000794:	60fb      	str	r3, [r7, #12]
 	if (arr < 1)
- 8000794:	68fb      	ldr	r3, [r7, #12]
- 8000796:	2b00      	cmp	r3, #0
- 8000798:	d101      	bne.n	800079e <stepperASetSpeed+0x5e>
+ 8000796:	68fb      	ldr	r3, [r7, #12]
+ 8000798:	2b00      	cmp	r3, #0
+ 800079a:	d101      	bne.n	80007a0 <stepperASetSpeed+0x60>
 		arr = 1;
- 800079a:	2301      	movs	r3, #1
- 800079c:	60fb      	str	r3, [r7, #12]
+ 800079c:	2301      	movs	r3, #1
+ 800079e:	60fb      	str	r3, [r7, #12]
 	TIM2->ARR = arr;
- 800079e:	f04f 4280 	mov.w	r2, #1073741824	@ 0x40000000
- 80007a2:	68fb      	ldr	r3, [r7, #12]
- 80007a4:	62d3      	str	r3, [r2, #44]	@ 0x2c
+ 80007a0:	f04f 4280 	mov.w	r2, #1073741824	@ 0x40000000
+ 80007a4:	68fb      	ldr	r3, [r7, #12]
+ 80007a6:	62d3      	str	r3, [r2, #44]	@ 0x2c
 	TIM2->CNT = 0;                     // сброс счётчика
- 80007a6:	f04f 4380 	mov.w	r3, #1073741824	@ 0x40000000
- 80007aa:	2200      	movs	r2, #0
- 80007ac:	625a      	str	r2, [r3, #36]	@ 0x24
+ 80007a8:	f04f 4380 	mov.w	r3, #1073741824	@ 0x40000000
+ 80007ac:	2200      	movs	r2, #0
+ 80007ae:	625a      	str	r2, [r3, #36]	@ 0x24
 	TIM2->DIER |= TIM_DIER_UIE;        // включаем прерывание
- 80007ae:	f04f 4380 	mov.w	r3, #1073741824	@ 0x40000000
- 80007b2:	68db      	ldr	r3, [r3, #12]
- 80007b4:	f04f 4280 	mov.w	r2, #1073741824	@ 0x40000000
- 80007b8:	f043 0301 	orr.w	r3, r3, #1
- 80007bc:	60d3      	str	r3, [r2, #12]
+ 80007b0:	f04f 4380 	mov.w	r3, #1073741824	@ 0x40000000
+ 80007b4:	68db      	ldr	r3, [r3, #12]
+ 80007b6:	f04f 4280 	mov.w	r2, #1073741824	@ 0x40000000
+ 80007ba:	f043 0301 	orr.w	r3, r3, #1
+ 80007be:	60d3      	str	r3, [r2, #12]
 }
- 80007be:	3714      	adds	r7, #20
- 80007c0:	46bd      	mov	sp, r7
- 80007c2:	bc80      	pop	{r7}
- 80007c4:	4770      	bx	lr
- 80007c6:	bf00      	nop
+ 80007c0:	3714      	adds	r7, #20
+ 80007c2:	46bd      	mov	sp, r7
+ 80007c4:	bc80      	pop	{r7}
+ 80007c6:	4770      	bx	lr
  80007c8:	000f4240 	.word	0x000f4240
 
 080007cc <stepperBSetSpeed>:
@@ -1071,65 +1071,65 @@ void stepperBSetSpeed(uint8_t setpoint) {
  80007de:	441a      	add	r2, r3
  80007e0:	00d2      	lsls	r2, r2, #3
  80007e2:	1ad3      	subs	r3, r2, r3
- 80007e4:	b29b      	uxth	r3, r3
- 80007e6:	3364      	adds	r3, #100	@ 0x64
- 80007e8:	817b      	strh	r3, [r7, #10]
+ 80007e4:	005b      	lsls	r3, r3, #1
+ 80007e6:	b29b      	uxth	r3, r3
+ 80007e8:	3364      	adds	r3, #100	@ 0x64
+ 80007ea:	817b      	strh	r3, [r7, #10]
 	if (freqHz == 0) {
- 80007ea:	897b      	ldrh	r3, [r7, #10]
- 80007ec:	2b00      	cmp	r3, #0
- 80007ee:	d106      	bne.n	80007fe <stepperBSetSpeed+0x32>
+ 80007ec:	897b      	ldrh	r3, [r7, #10]
+ 80007ee:	2b00      	cmp	r3, #0
+ 80007f0:	d106      	bne.n	8000800 <stepperBSetSpeed+0x34>
 
 		TIM3->DIER &= ~TIM_DIER_UIE;
- 80007f0:	4b15      	ldr	r3, [pc, #84]	@ (8000848 <stepperBSetSpeed+0x7c>)
- 80007f2:	68db      	ldr	r3, [r3, #12]
- 80007f4:	4a14      	ldr	r2, [pc, #80]	@ (8000848 <stepperBSetSpeed+0x7c>)
- 80007f6:	f023 0301 	bic.w	r3, r3, #1
- 80007fa:	60d3      	str	r3, [r2, #12]
+ 80007f2:	4b15      	ldr	r3, [pc, #84]	@ (8000848 <stepperBSetSpeed+0x7c>)
+ 80007f4:	68db      	ldr	r3, [r3, #12]
+ 80007f6:	4a14      	ldr	r2, [pc, #80]	@ (8000848 <stepperBSetSpeed+0x7c>)
+ 80007f8:	f023 0301 	bic.w	r3, r3, #1
+ 80007fc:	60d3      	str	r3, [r2, #12]
 		return;
- 80007fc:	e01f      	b.n	800083e <stepperBSetSpeed+0x72>
+ 80007fe:	e01f      	b.n	8000840 <stepperBSetSpeed+0x74>
 	}
 	uint32_t arr = (1000000UL / (2 * freqHz)) - 1;
- 80007fe:	897b      	ldrh	r3, [r7, #10]
- 8000800:	005b      	lsls	r3, r3, #1
- 8000802:	461a      	mov	r2, r3
- 8000804:	4b11      	ldr	r3, [pc, #68]	@ (800084c <stepperBSetSpeed+0x80>)
- 8000806:	fbb3 f3f2 	udiv	r3, r3, r2
- 800080a:	3b01      	subs	r3, #1
- 800080c:	60fb      	str	r3, [r7, #12]
+ 8000800:	897b      	ldrh	r3, [r7, #10]
+ 8000802:	005b      	lsls	r3, r3, #1
+ 8000804:	461a      	mov	r2, r3
+ 8000806:	4b11      	ldr	r3, [pc, #68]	@ (800084c <stepperBSetSpeed+0x80>)
+ 8000808:	fbb3 f3f2 	udiv	r3, r3, r2
+ 800080c:	3b01      	subs	r3, #1
+ 800080e:	60fb      	str	r3, [r7, #12]
 	if (arr > 0xFFFF)
- 800080e:	68fb      	ldr	r3, [r7, #12]
- 8000810:	f5b3 3f80 	cmp.w	r3, #65536	@ 0x10000
- 8000814:	d302      	bcc.n	800081c <stepperBSetSpeed+0x50>
+ 8000810:	68fb      	ldr	r3, [r7, #12]
+ 8000812:	f5b3 3f80 	cmp.w	r3, #65536	@ 0x10000
+ 8000816:	d302      	bcc.n	800081e <stepperBSetSpeed+0x52>
 		arr = 0xFFFF;
- 8000816:	f64f 73ff 	movw	r3, #65535	@ 0xffff
- 800081a:	60fb      	str	r3, [r7, #12]
+ 8000818:	f64f 73ff 	movw	r3, #65535	@ 0xffff
+ 800081c:	60fb      	str	r3, [r7, #12]
 	if (arr < 1)
- 800081c:	68fb      	ldr	r3, [r7, #12]
- 800081e:	2b00      	cmp	r3, #0
- 8000820:	d101      	bne.n	8000826 <stepperBSetSpeed+0x5a>
+ 800081e:	68fb      	ldr	r3, [r7, #12]
+ 8000820:	2b00      	cmp	r3, #0
+ 8000822:	d101      	bne.n	8000828 <stepperBSetSpeed+0x5c>
 		arr = 1;
- 8000822:	2301      	movs	r3, #1
- 8000824:	60fb      	str	r3, [r7, #12]
+ 8000824:	2301      	movs	r3, #1
+ 8000826:	60fb      	str	r3, [r7, #12]
 	TIM3->ARR = arr;
- 8000826:	4a08      	ldr	r2, [pc, #32]	@ (8000848 <stepperBSetSpeed+0x7c>)
- 8000828:	68fb      	ldr	r3, [r7, #12]
- 800082a:	62d3      	str	r3, [r2, #44]	@ 0x2c
+ 8000828:	4a07      	ldr	r2, [pc, #28]	@ (8000848 <stepperBSetSpeed+0x7c>)
+ 800082a:	68fb      	ldr	r3, [r7, #12]
+ 800082c:	62d3      	str	r3, [r2, #44]	@ 0x2c
 	TIM3->CNT = 0;
- 800082c:	4b06      	ldr	r3, [pc, #24]	@ (8000848 <stepperBSetSpeed+0x7c>)
- 800082e:	2200      	movs	r2, #0
- 8000830:	625a      	str	r2, [r3, #36]	@ 0x24
+ 800082e:	4b06      	ldr	r3, [pc, #24]	@ (8000848 <stepperBSetSpeed+0x7c>)
+ 8000830:	2200      	movs	r2, #0
+ 8000832:	625a      	str	r2, [r3, #36]	@ 0x24
 	TIM3->DIER |= TIM_DIER_UIE;
- 8000832:	4b05      	ldr	r3, [pc, #20]	@ (8000848 <stepperBSetSpeed+0x7c>)
- 8000834:	68db      	ldr	r3, [r3, #12]
- 8000836:	4a04      	ldr	r2, [pc, #16]	@ (8000848 <stepperBSetSpeed+0x7c>)
- 8000838:	f043 0301 	orr.w	r3, r3, #1
- 800083c:	60d3      	str	r3, [r2, #12]
+ 8000834:	4b04      	ldr	r3, [pc, #16]	@ (8000848 <stepperBSetSpeed+0x7c>)
+ 8000836:	68db      	ldr	r3, [r3, #12]
+ 8000838:	4a03      	ldr	r2, [pc, #12]	@ (8000848 <stepperBSetSpeed+0x7c>)
+ 800083a:	f043 0301 	orr.w	r3, r3, #1
+ 800083e:	60d3      	str	r3, [r2, #12]
 }
- 800083e:	3714      	adds	r7, #20
- 8000840:	46bd      	mov	sp, r7
- 8000842:	bc80      	pop	{r7}
- 8000844:	4770      	bx	lr
- 8000846:	bf00      	nop
+ 8000840:	3714      	adds	r7, #20
+ 8000842:	46bd      	mov	sp, r7
+ 8000844:	bc80      	pop	{r7}
+ 8000846:	4770      	bx	lr
  8000848:	40000400 	.word	0x40000400
  800084c:	000f4240 	.word	0x000f4240
 
