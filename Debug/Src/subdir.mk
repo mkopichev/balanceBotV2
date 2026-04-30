@@ -7,6 +7,8 @@
 C_SRCS += \
 ../Src/common.c \
 ../Src/delayMs.c \
+../Src/i2c.c \
+../Src/imu.c \
 ../Src/main.c \
 ../Src/stepperMotor.c \
 ../Src/syscalls.c \
@@ -16,6 +18,8 @@ C_SRCS += \
 OBJS += \
 ./Src/common.o \
 ./Src/delayMs.o \
+./Src/i2c.o \
+./Src/imu.o \
 ./Src/main.o \
 ./Src/stepperMotor.o \
 ./Src/syscalls.o \
@@ -25,6 +29,8 @@ OBJS += \
 C_DEPS += \
 ./Src/common.d \
 ./Src/delayMs.d \
+./Src/i2c.d \
+./Src/imu.d \
 ./Src/main.d \
 ./Src/stepperMotor.d \
 ./Src/syscalls.d \
@@ -39,7 +45,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/common.cyclo ./Src/common.d ./Src/common.o ./Src/common.su ./Src/delayMs.cyclo ./Src/delayMs.d ./Src/delayMs.o ./Src/delayMs.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/stepperMotor.cyclo ./Src/stepperMotor.d ./Src/stepperMotor.o ./Src/stepperMotor.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/userLed.cyclo ./Src/userLed.d ./Src/userLed.o ./Src/userLed.su
+	-$(RM) ./Src/common.cyclo ./Src/common.d ./Src/common.o ./Src/common.su ./Src/delayMs.cyclo ./Src/delayMs.d ./Src/delayMs.o ./Src/delayMs.su ./Src/i2c.cyclo ./Src/i2c.d ./Src/i2c.o ./Src/i2c.su ./Src/imu.cyclo ./Src/imu.d ./Src/imu.o ./Src/imu.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/stepperMotor.cyclo ./Src/stepperMotor.d ./Src/stepperMotor.o ./Src/stepperMotor.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/userLed.cyclo ./Src/userLed.d ./Src/userLed.o ./Src/userLed.su
 
 .PHONY: clean-Src
 

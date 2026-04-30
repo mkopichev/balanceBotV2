@@ -1,5 +1,7 @@
 "./Src/common.o"
 "./Src/delayMs.o"
+"./Src/i2c.o"
+"./Src/imu.o"
 "./Src/main.o"
 "./Src/stepperMotor.o"
 "./Src/syscalls.o"

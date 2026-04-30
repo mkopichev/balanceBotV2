@@ -8,6 +8,8 @@
 
 extern uint8_t cpuFreqSourceChoosen;
 
+uint8_t res;
+
 int main(void) {
 
 	if (!cpuFreqInit(PLL_SOURCE)) {
@@ -18,27 +20,30 @@ int main(void) {
 	userLedInit();
 	stepperABInit();
 	stepperABEnable();
+	i2cInit();
+	res = imuInit();
+
 	for (;;) {
 
-		for (uint8_t i = 0; i < 255; i++) {
-
-			stepperABMove(i, false);
-			delayMs(10);
-		}
-		for (uint8_t i = 0; i < 255; i++) {
-
-			stepperABMove(255 - i, false);
-			delayMs(10);
-		}
-		for (uint8_t i = 0; i < 255; i++) {
-
-			stepperABMove(i, true);
-			delayMs(10);
-		}
-		for (uint8_t i = 0; i < 255; i++) {
-
-			stepperABMove(255 - i, true);
-			delayMs(10);
-		}
+//		for (uint8_t i = 0; i < 255; i++) {
+//
+//			stepperABMove(i, false);
+//			delayMs(10);
+//		}
+//		for (uint8_t i = 0; i < 255; i++) {
+//
+//			stepperABMove(255 - i, false);
+//			delayMs(10);
+//		}
+//		for (uint8_t i = 0; i < 255; i++) {
+//
+//			stepperABMove(i, true);
+//			delayMs(10);
+//		}
+//		for (uint8_t i = 0; i < 255; i++) {
+//
+//			stepperABMove(255 - i, true);
+//			delayMs(10);
+//		}
 	}
 }
