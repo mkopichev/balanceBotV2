@@ -1,2 +1,2 @@
-../Src/imu.c:9:9:imuInit	40	static
-../Src/imu.c:54:7:imuGetAngle	56	static
+../Src/imu.c:6:9:imuInit	40	static
+../Src/imu.c:51:7:imuGetAngle	72	static

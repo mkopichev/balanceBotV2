@@ -1,2 +1,2 @@
-../Src/imu.c:9:9:imuInit	5
-../Src/imu.c:54:7:imuGetAngle	3
+../Src/imu.c:6:9:imuInit	5
+../Src/imu.c:51:7:imuGetAngle	4

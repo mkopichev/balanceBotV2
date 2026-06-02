@@ -2,7 +2,7 @@
 
 extern uint8_t cpuFreqSourceChoosen;
 Controller_t balanceBotCtrl;
-float pidOutput;
+uint32_t freq;
 
 void controllerInit(Controller_t *controller, float kp, float ki, float kd,
 		float min, float max, float deltaTime) {
@@ -38,7 +38,7 @@ void controlSystemInit(void) {
 	NVIC_EnableIRQ(TIM1_UP_IRQn);
 	TIM1->CR1 = TIM_CR1_CEN;
 
-	controllerInit(&balanceBotCtrl, 0.3f, 0.0f, 0.0f, -100.0f, 100.0f,
+	controllerInit(&balanceBotCtrl, 0.5f, 0.0f, 0.0f, -100.0f, 100.0f,
 			10.0f / 1000.0f);
 }
 
@@ -92,7 +92,7 @@ void TIM1_UP_IRQHandler(void) {
 	float angle = imuGetAngle();
 	float output = controllerUpdate(&balanceBotCtrl, 0.0f, angle);
 
-	uint32_t freq = 0; // convert pidout to step frequency
+	freq = 0; // convert pidout to step frequency
 	bool direction = (output < 0) ? false : true;
 	float absOut = fabs(output);
 	const float deadband = 0.5f;

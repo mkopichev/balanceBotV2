@@ -30,13 +30,13 @@ void stepperABInit(void) {
 	steppersABDisable();
 
 	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN | RCC_APB1ENR_TIM3EN;
-	TIM2->PSC = 72 - 1; // 1 MHz
+	TIM2->PSC = 720 - 1; // 1 MHz
 	TIM2->ARR = 0xFFFF;
 	TIM2->DIER |= TIM_DIER_UIE;
 	NVIC_EnableIRQ(TIM2_IRQn);
 	TIM2->CR1 |= TIM_CR1_CEN | TIM_CR1_URS;
 
-	TIM3->PSC = 72 - 1;
+	TIM3->PSC = 720 - 1;
 	TIM3->ARR = 0xFFFF;
 	TIM3->DIER |= TIM_DIER_UIE;
 	NVIC_EnableIRQ(TIM3_IRQn);
@@ -44,7 +44,7 @@ void stepperABInit(void) {
 }
 
 // set speed for motor A (TIM2)
-void stepperASetSpeed(uint8_t setpoint) {
+void stepperASetSpeed(uint16_t setpoint) {
 
 	uint16_t freqHz = MIN_FREQ + (setpoint * SETPOINT_MULTIPLIER);
 	if (freqHz == 0) {
@@ -53,7 +53,7 @@ void stepperASetSpeed(uint8_t setpoint) {
 		return;
 	}
 	// calculate timer period for 1MHz freq
-	uint32_t arr = (1000000UL / (2 * freqHz)) - 1;
+	uint32_t arr = (100000UL / (2 * freqHz)) - 1;
 	if (arr > 0xFFFF)
 		arr = 0xFFFF;
 	if (arr < 1)
@@ -63,7 +63,7 @@ void stepperASetSpeed(uint8_t setpoint) {
 	TIM2->DIER |= TIM_DIER_UIE;        // включаем прерывание
 }
 
-void stepperBSetSpeed(uint8_t setpoint) {
+void stepperBSetSpeed(uint16_t setpoint) {
 
 	uint16_t freqHz = MIN_FREQ + (setpoint * SETPOINT_MULTIPLIER);
 	if (freqHz == 0) {
@@ -71,7 +71,7 @@ void stepperBSetSpeed(uint8_t setpoint) {
 		TIM3->DIER &= ~TIM_DIER_UIE;
 		return;
 	}
-	uint32_t arr = (1000000UL / (2 * freqHz)) - 1;
+	uint32_t arr = (100000UL / (2 * freqHz)) - 1;
 	if (arr > 0xFFFF)
 		arr = 0xFFFF;
 	if (arr < 1)
@@ -122,7 +122,7 @@ void TIM3_IRQHandler(void) {
 	}
 }
 
-void stepperABMove(uint8_t setpoint, bool dir) {
+void stepperABMove(uint16_t setpoint, bool dir) {
 
 	stepperASetSpeed(setpoint);
 	stepperBSetSpeed(setpoint);

@@ -8,8 +8,6 @@
 
 extern uint8_t cpuFreqSourceChoosen;
 
-float res;
-
 int main(void) {
 
 	if (!cpuFreqInit(PLL_SOURCE)) {
@@ -20,7 +18,7 @@ int main(void) {
 	}
 	userLedInit();
 	stepperABInit();
-//	stepperABEnable();
+	stepperABEnable();
 	i2cInit();
 	if(!imuInit()) {
 
@@ -30,6 +28,6 @@ int main(void) {
 
 	for (;;) {
 
-		res = imuGetAngle();
+		__NOP();
 	}
 }
