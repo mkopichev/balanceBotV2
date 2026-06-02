@@ -2,6 +2,8 @@
 
 float filteredAngle = 0.0f;
 float gyroBias = 0.0f;
+float alpha = 0.995f;
+float offset = 1.3f;
 
 uint8_t imuInit(void) {
 
@@ -67,7 +69,7 @@ float imuGetAngle(void) {
 	float accelAngle = atan2f(ax, az) * (180.0f / M_PI);
 
 	// gyro
-	int16_t rawGy = (int16_t) ((data[3] << 8) | data[2]); // axis Y (pitch)
+	int16_t rawGy = (int16_t) -((data[3] << 8) | data[2]); // axis Y (pitch)
 	float gyroRate = (rawGy - gyroBias) * GYRO_SCALE_FACTOR;
 	float gyroAngle = filteredAngle + gyroRate * dt; // integrating
 
@@ -79,15 +81,14 @@ float imuGetAngle(void) {
 		firstСall = 0;
 	}
 	float accelDelta = fabsf(accelAngle - prevAccelAngle);
-	const float alpha = 0.8f;
 	if (accelDelta > 10.0f) {
-		// mistaken data, use only gyro
-		filteredAngle = gyroAngle;
+
+		filteredAngle = gyroAngle; // mistaken data, use only gyro
 	} else {
 
-		filteredAngle = alpha * gyroAngle + (1.0f - alpha) * accelAngle;
+		filteredAngle = alpha * gyroAngle + (1.0f - alpha) * accelAngle; // complementary filter
 	}
 	prevAccelAngle = accelAngle;
 
-	return filteredAngle;
+	return filteredAngle - offset;
 }

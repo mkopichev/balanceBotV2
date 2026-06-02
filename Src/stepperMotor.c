@@ -16,7 +16,7 @@ void steppersABDisable(void) {
 void stepperABInit(void) {
 
 	RCC->APB2ENR |=
-			RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPBEN | RCC_APB2ENR_AFIOEN;
+	RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPBEN | RCC_APB2ENR_AFIOEN;
 	GPIOA->CRL &= ~(GPIO_CRL_MODE3 | GPIO_CRL_MODE4 | GPIO_CRL_MODE5);
 	GPIOA->CRL |= GPIO_CRL_MODE3 | GPIO_CRL_MODE4 | GPIO_CRL_MODE5;
 	GPIOA->CRL &= ~(GPIO_CRL_CNF3 | GPIO_CRL_CNF4 | GPIO_CRL_CNF5);
@@ -30,55 +30,75 @@ void stepperABInit(void) {
 	steppersABDisable();
 
 	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN | RCC_APB1ENR_TIM3EN;
-	TIM2->PSC = 720 - 1; // 1 MHz
+	TIM2->PSC = 72 - 1; // 1 MHz
 	TIM2->ARR = 0xFFFF;
 	TIM2->DIER |= TIM_DIER_UIE;
 	NVIC_EnableIRQ(TIM2_IRQn);
-	TIM2->CR1 |= TIM_CR1_CEN | TIM_CR1_URS;
+	TIM2->CR1 |= TIM_CR1_CEN | TIM_CR1_URS | TIM_CR1_ARPE;
 
-	TIM3->PSC = 720 - 1;
+	TIM3->PSC = 72 - 1; // 1 MHz
 	TIM3->ARR = 0xFFFF;
 	TIM3->DIER |= TIM_DIER_UIE;
 	NVIC_EnableIRQ(TIM3_IRQn);
-	TIM3->CR1 |= TIM_CR1_CEN | TIM_CR1_URS;
+	TIM3->CR1 |= TIM_CR1_CEN | TIM_CR1_URS | TIM_CR1_ARPE;
 }
 
 // set speed for motor A (TIM2)
-void stepperASetSpeed(uint16_t setpoint) {
+void stepperASetSpeed(uint32_t freqHz) {
 
-	uint16_t freqHz = MIN_FREQ + (setpoint * SETPOINT_MULTIPLIER);
 	if (freqHz == 0) {
 
-		TIM2->DIER &= ~TIM_DIER_UIE;   // motor stopped
+//		TIM2->DIER &= ~TIM_DIER_UIE;
 		return;
 	}
-	// calculate timer period for 1MHz freq
-	uint32_t arr = (100000UL / (2 * freqHz)) - 1;
-	if (arr > 0xFFFF)
+	if (freqHz < MIN_FREQ) {
+
+		freqHz = MIN_FREQ;
+	}
+	if (freqHz > MAX_FREQ) {
+
+		freqHz = MAX_FREQ;
+	}
+	uint32_t arr = (1000000UL / (2 * freqHz)) - 1;
+	if (arr > 0xFFFF) {
+
 		arr = 0xFFFF;
-	if (arr < 1)
+	}
+	if (arr < 1) {
+
 		arr = 1;
-	TIM2->ARR = arr;
-	TIM2->CNT = 0;                     // сброс счётчика
-	TIM2->DIER |= TIM_DIER_UIE;        // включаем прерывание
+	}
+	TIM2->ARR = (uint16_t) arr;
+//	TIM2->DIER |= TIM_DIER_UIE;
 }
 
-void stepperBSetSpeed(uint16_t setpoint) {
+// set speed for motor B (TIM3)
+void stepperBSetSpeed(uint32_t freqHz) {
 
-	uint16_t freqHz = MIN_FREQ + (setpoint * SETPOINT_MULTIPLIER);
 	if (freqHz == 0) {
 
-		TIM3->DIER &= ~TIM_DIER_UIE;
+//		TIM3->DIER &= ~TIM_DIER_UIE;
 		return;
 	}
-	uint32_t arr = (100000UL / (2 * freqHz)) - 1;
-	if (arr > 0xFFFF)
+	if (freqHz < MIN_FREQ) {
+
+		freqHz = MIN_FREQ;
+	}
+	if (freqHz > MAX_FREQ) {
+
+		freqHz = MAX_FREQ;
+	}
+	uint32_t arr = (1000000UL / (2 * freqHz)) - 1;
+	if (arr > 0xFFFF) {
+
 		arr = 0xFFFF;
-	if (arr < 1)
+	}
+	if (arr < 1) {
+
 		arr = 1;
-	TIM3->ARR = arr;
-	TIM3->CNT = 0;
-	TIM3->DIER |= TIM_DIER_UIE;
+	}
+	TIM3->ARR = (uint16_t) arr;
+//	TIM3->DIER |= TIM_DIER_UIE;
 }
 
 // choose direction with DIR pin
@@ -122,10 +142,10 @@ void TIM3_IRQHandler(void) {
 	}
 }
 
-void stepperABMove(uint16_t setpoint, bool dir) {
+void stepperABMove(uint32_t freqHz, bool dir) {
 
-	stepperASetSpeed(setpoint);
-	stepperBSetSpeed(setpoint);
+	stepperASetSpeed(freqHz);
+	stepperBSetSpeed(freqHz);
 	stepperASetDir(dir);
 	stepperBSetDir(dir);
 }

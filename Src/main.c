@@ -20,14 +20,19 @@ int main(void) {
 	stepperABInit();
 	stepperABEnable();
 	i2cInit();
-	if(!imuInit()) {
+	if (!imuInit()) {
 
 		userLedToggle(LED_ON);
 	}
+
 	controlSystemInit();
 
 	for (;;) {
 
+//		stepperABMove(MAX_FREQ, 1);
+//		delayMs(5000);
+//		stepperABMove(MAX_FREQ, 0);
+//		delayMs(5000);
 		__NOP();
 	}
 }

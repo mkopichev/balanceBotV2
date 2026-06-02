@@ -36,10 +36,10 @@ void controlSystemInit(void) {
 	TIM1->ARR = 1000; // 10 ms period
 	TIM1->DIER = TIM_DIER_UIE;
 	NVIC_EnableIRQ(TIM1_UP_IRQn);
+	NVIC_SetPriority(TIM1_UP_IRQn, 15);
 	TIM1->CR1 = TIM_CR1_CEN;
 
-	controllerInit(&balanceBotCtrl, 0.5f, 0.0f, 0.0f, -100.0f, 100.0f,
-			10.0f / 1000.0f);
+	controllerInit(&balanceBotCtrl, 5.0f, 0.0f, 0.0f, -100.0f, 100.0f, 0.01f);
 }
 
 float controllerUpdate(Controller_t *controller, float setpoint,
@@ -95,7 +95,7 @@ void TIM1_UP_IRQHandler(void) {
 	freq = 0; // convert pidout to step frequency
 	bool direction = (output < 0) ? false : true;
 	float absOut = fabs(output);
-	const float deadband = 0.5f;
+	const float deadband = 0.1f;
 	if (absOut > deadband) {
 
 		float t = (absOut - deadband) / (100.0f - deadband);

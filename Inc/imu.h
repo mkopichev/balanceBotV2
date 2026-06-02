@@ -17,7 +17,7 @@
 
 #define ACCEL_SCALE_FACTOR   		0.000061f
 #define GYRO_SCALE_FACTOR	 		0.035f
-#define GYRO_CALIBRATION_SAMPLES	500
+#define GYRO_CALIBRATION_SAMPLES	250
 
 uint8_t imuInit(void);
 float imuGetAngle(void);
