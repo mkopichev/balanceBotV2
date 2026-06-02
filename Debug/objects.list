@@ -1,4 +1,5 @@
 "./Src/common.o"
+"./Src/controlSystem.o"
 "./Src/delayMs.o"
 "./Src/i2c.o"
 "./Src/imu.o"

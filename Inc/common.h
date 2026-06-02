@@ -5,11 +5,13 @@
 #include <stdbool.h>
 #include <stepperMotors.h>
 #include <stdbool.h>
+#include <math.h>
 #include "stm32f103xb.h"
 #include "userLed.h"
 #include "delayMs.h"
 #include "i2c.h"
 #include "imu.h"
+#include "controlSystem.h"
 
 #define HSI_SOURCE 0
 #define HSE_SOURCE 1

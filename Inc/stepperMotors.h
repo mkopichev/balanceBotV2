@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-#define MIN_FREQ 100UL
+#define MIN_FREQ 2000UL
 #define MAX_FREQ 20000UL
 #define SETPOINT_MULTIPLIER (MAX_FREQ / 255UL)
 
