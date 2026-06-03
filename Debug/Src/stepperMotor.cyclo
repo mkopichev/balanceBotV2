@@ -1,6 +1,6 @@
 ../Inc/core_cm3.h:1511:22:__NVIC_EnableIRQ	2
 ../Src/stepperMotor.c:4:6:stepperABEnable	1
-../Src/stepperMotor.c:10:6:steppersABDisable	1
+../Src/stepperMotor.c:10:6:stepperABDisable	1
 ../Src/stepperMotor.c:16:6:stepperABInit	1
 ../Src/stepperMotor.c:47:6:stepperASetSpeed	6
 ../Src/stepperMotor.c:76:6:stepperBSetSpeed	6

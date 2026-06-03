@@ -10,7 +10,7 @@ extern uint8_t cpuFreqSourceChoosen;
 
 int main(void) {
 
-	if (!cpuFreqInit(PLL_SOURCE)) {
+ 	if (!cpuFreqInit(PLL_SOURCE)) {
 
 		NVIC_SystemReset();
 		cpuFreqSourceChoosen = HSI_SOURCE;
@@ -29,10 +29,6 @@ int main(void) {
 
 	for (;;) {
 
-//		stepperABMove(MAX_FREQ, 1);
-//		delayMs(5000);
-//		stepperABMove(MAX_FREQ, 0);
-//		delayMs(5000);
 		__NOP();
 	}
 }

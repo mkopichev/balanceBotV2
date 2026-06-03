@@ -7,7 +7,7 @@ void stepperABEnable(void) {
 	GPIOB->ODR &= ~GPIO_ODR_ODR3;
 }
 
-void steppersABDisable(void) {
+void stepperABDisable(void) {
 
 	GPIOA->ODR |= GPIO_ODR_ODR3;
 	GPIOB->ODR |= GPIO_ODR_ODR3;
@@ -27,7 +27,7 @@ void stepperABInit(void) {
 	GPIOB->CRL |= GPIO_CRL_MODE3 | GPIO_CRL_MODE4 | GPIO_CRL_MODE5;
 	GPIOB->CRL &= ~(GPIO_CRL_CNF3 | GPIO_CRL_CNF4 | GPIO_CRL_CNF5);
 
-	steppersABDisable();
+	stepperABDisable();
 
 	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN | RCC_APB1ENR_TIM3EN;
 	TIM2->PSC = 72 - 1; // 1 MHz
@@ -48,9 +48,10 @@ void stepperASetSpeed(uint32_t freqHz) {
 
 	if (freqHz == 0) {
 
-//		TIM2->DIER &= ~TIM_DIER_UIE;
+		stepperABDisable();
 		return;
 	}
+	stepperABEnable();
 	if (freqHz < MIN_FREQ) {
 
 		freqHz = MIN_FREQ;
@@ -69,7 +70,6 @@ void stepperASetSpeed(uint32_t freqHz) {
 		arr = 1;
 	}
 	TIM2->ARR = (uint16_t) arr;
-//	TIM2->DIER |= TIM_DIER_UIE;
 }
 
 // set speed for motor B (TIM3)
@@ -77,9 +77,10 @@ void stepperBSetSpeed(uint32_t freqHz) {
 
 	if (freqHz == 0) {
 
-//		TIM3->DIER &= ~TIM_DIER_UIE;
+		stepperABDisable();
 		return;
 	}
+	stepperABEnable();
 	if (freqHz < MIN_FREQ) {
 
 		freqHz = MIN_FREQ;
@@ -98,7 +99,6 @@ void stepperBSetSpeed(uint32_t freqHz) {
 		arr = 1;
 	}
 	TIM3->ARR = (uint16_t) arr;
-//	TIM3->DIER |= TIM_DIER_UIE;
 }
 
 // choose direction with DIR pin
