@@ -1,2 +1,2 @@
-../Src/imu.c:8:9:imuInit	40	static
-../Src/imu.c:53:7:imuGetAngle	64	static
+../Src/imu.c:8:9:imuInit	48	static,ignoring_inline_asm
+../Src/imu.c:57:7:imuGetAngle	64	static

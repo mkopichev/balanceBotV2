@@ -33,14 +33,13 @@ void controlSystemInit(void) {
 		TIM1->PSC = 720 - 1; // 100 kHz
 		break;
 	}
-	TIM1->ARR = 1000; // 10 ms period
+	TIM1->ARR = 1000; // 10 ms timer period
 	TIM1->DIER = TIM_DIER_UIE;
 	NVIC_EnableIRQ(TIM1_UP_IRQn);
 	NVIC_SetPriority(TIM1_UP_IRQn, 15);
 	TIM1->CR1 = TIM_CR1_CEN;
 
-	controllerInit(&balanceBotCtrl, 10.0f, 100.0f, 0.1f, -100.0f, 100.0f,
-			0.01f);
+	controllerInit(&balanceBotCtrl, 4.0f, 200.0f, 0.1f, -100.0f, 100.0f, 0.01f);
 }
 
 float controllerUpdate(Controller_t *controller, float setpoint,
@@ -92,7 +91,7 @@ void TIM1_UP_IRQHandler(void) {
 	TIM1->SR &= ~TIM_SR_UIF;
 	float angle = imuGetAngle();
 	float output = 0.0f;
-	if (fabs(angle) < 15.0f) {
+	if (fabs(angle) < 22.5f) {
 
 		stepperABEnable();
 		output = controllerUpdate(&balanceBotCtrl, 0.0f, angle);
@@ -102,6 +101,7 @@ void TIM1_UP_IRQHandler(void) {
 		stepperABDisable();
 		return;
 	}
+	uartAddPlot(angle, output, 3);
 	freq = 0; // convert pidout to step frequency
 	bool direction = (output < 0) ? false : true;
 	float absOut = fabs(output);

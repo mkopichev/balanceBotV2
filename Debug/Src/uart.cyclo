@@ -1,0 +1,6 @@
+../Src/uart.c:3:6:uartInit	1
+../Src/uart.c:15:6:uartSendByte	2
+../Src/uart.c:24:6:uartSendString	2
+../Src/uart.c:32:6:uartSendDecimal	4
+../Src/uart.c:55:6:uartSendFloat	3
+../Src/uart.c:77:6:uartAddPlot	1

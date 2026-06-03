@@ -7,5 +7,6 @@
 "./Src/stepperMotor.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
+"./Src/uart.o"
 "./Src/userLed.o"
 "./Startup/startup_stm32f103c8tx.o"

@@ -16,6 +16,7 @@ int main(void) {
 		cpuFreqSourceChoosen = HSI_SOURCE;
 		userLedToggle(LED_ON);
 	}
+	uartInit();
 	userLedInit();
 	stepperABInit();
 	stepperABEnable();

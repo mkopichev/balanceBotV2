@@ -14,10 +14,12 @@
 
 #define LSM6DSR_ODR_104Hz    		0x04
 #define LSM6DSR_FS_2g        		0x00
+#define LSM6DSR_LPF2				0x01
+#define LSM6DSR_FS_1000dps			0x02
 
 #define ACCEL_SCALE_FACTOR   		0.000061f
 #define GYRO_SCALE_FACTOR	 		0.035f
-#define GYRO_CALIBRATION_SAMPLES	250
+#define GYRO_CALIBRATION_SAMPLES	500
 
 uint8_t imuInit(void);
 float imuGetAngle(void);

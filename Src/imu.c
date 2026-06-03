@@ -3,7 +3,7 @@
 float filteredAngle = 0.0f;
 float gyroBias = 0.0f;
 float alpha = 0.998f;
-float offset = 5.5f;
+float offset = 5.7f;
 
 uint8_t imuInit(void) {
 
@@ -13,15 +13,15 @@ uint8_t imuInit(void) {
 
 		return 0;
 	}
-	// ODR = 104 Гц, Full Scale = ±2g
+	// ODR = 104 Hz, Full Scale = ±2g
 	uint8_t ctrl1_val = (LSM6DSR_ODR_104Hz << 4) | (LSM6DSR_FS_2g << 2)
-			| (0x01 << 1) | 0x02;
+			| (LSM6DSR_LPF2 << 1);
 	if (!i2cWriteRegister(LSM6DSR_ADDR, LSM6DSR_CTRL1_XL, &ctrl1_val, 1)) {
 
 		return 0;
 	}
-	// CTRL2_G: ODR = 104 Гц, FS = 1000 dps (or 2000 dps)
-	uint8_t ctrl2_val = (LSM6DSR_ODR_104Hz << 4) | (0x02 << 2); // 1000 dps
+	// CTRL2_G: ODR = 104 Hz, Full Scale = 1000 dps
+	uint8_t ctrl2_val = (LSM6DSR_ODR_104Hz << 4) | (LSM6DSR_FS_1000dps << 2);
 	if (!i2cWriteRegister(LSM6DSR_ADDR, LSM6DSR_CTRL2_G, &ctrl2_val, 1)) {
 
 		return 0;
@@ -32,10 +32,14 @@ uint8_t imuInit(void) {
 	uint8_t data[6];
 	int32_t sum = 0;
 	for (uint16_t i = 0; i < GYRO_CALIBRATION_SAMPLES; i++) {
+
 		i2cReadRegister(LSM6DSR_ADDR, LSM6DSR_OUTX_L_G, data, 6);
 		int16_t raw_gy = (int16_t) ((data[3] << 8) | data[2]); // axis Y
 		sum += raw_gy;
-		delayMs(1); // pause between measurements
+		for(volatile uint16_t j = 0; j < 10000; j++) {
+
+			__NOP();
+		}
 	}
 	gyroBias = (float) sum / GYRO_CALIBRATION_SAMPLES;
 

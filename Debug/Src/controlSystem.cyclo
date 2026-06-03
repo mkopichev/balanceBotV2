@@ -2,5 +2,5 @@
 ../Src/../Inc/core_cm3.h:1639:22:__NVIC_SetPriority	2
 ../Src/controlSystem.c:7:6:controllerInit	1
 ../Src/controlSystem.c:21:6:controlSystemInit	5
-../Src/controlSystem.c:46:7:controllerUpdate	8
-../Src/controlSystem.c:90:6:TIM1_UP_IRQHandler	5
+../Src/controlSystem.c:45:7:controllerUpdate	8
+../Src/controlSystem.c:89:6:TIM1_UP_IRQHandler	5
