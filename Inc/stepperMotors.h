@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-#define MIN_FREQ 200UL
+#define MIN_FREQ 20UL
 #define MAX_FREQ 20000UL
 
 void stepperABEnable(void);

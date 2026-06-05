@@ -2,5 +2,5 @@
 ../Src/uart.c:15:6:uartSendByte	2
 ../Src/uart.c:24:6:uartSendString	2
 ../Src/uart.c:32:6:uartSendDecimal	4
-../Src/uart.c:55:6:uartSendFloat	3
-../Src/uart.c:77:6:uartAddPlot	1
+../Src/uart.c:52:6:uartSendFloat	3
+../Src/uart.c:74:6:uartSendData	1

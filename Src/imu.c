@@ -3,7 +3,7 @@
 float filteredAngle = 0.0f;
 float gyroBias = 0.0f;
 float alpha = 0.998f;
-float offset = 5.7f;
+float angleOffset = 6.0f;
 
 uint8_t imuInit(void) {
 
@@ -79,5 +79,5 @@ float imuGetAngle(void) {
 
 	filteredAngle = alpha * gyroAngle + (1.0f - alpha) * accelAngle; // complementary filter
 
-	return filteredAngle - offset;
+	return filteredAngle - angleOffset;
 }

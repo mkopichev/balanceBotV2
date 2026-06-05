@@ -2,5 +2,5 @@
 ../Src/uart.c:15:6:uartSendByte	16	static,ignoring_inline_asm
 ../Src/uart.c:24:6:uartSendString	16	static
 ../Src/uart.c:32:6:uartSendDecimal	24	static
-../Src/uart.c:55:6:uartSendFloat	32	static
-../Src/uart.c:77:6:uartAddPlot	24	static
+../Src/uart.c:52:6:uartSendFloat	32	static
+../Src/uart.c:74:6:uartSendData	24	static

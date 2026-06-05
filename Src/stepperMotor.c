@@ -1,5 +1,7 @@
 #include <stepperMotors.h>
 
+volatile int32_t motorPosition = 0;
+
 // for enabling - reset ENA pin
 void stepperABEnable(void) {
 
@@ -20,7 +22,7 @@ void stepperABInit(void) {
 	GPIOA->CRL &= ~(GPIO_CRL_MODE3 | GPIO_CRL_MODE4 | GPIO_CRL_MODE5);
 	GPIOA->CRL |= GPIO_CRL_MODE3 | GPIO_CRL_MODE4 | GPIO_CRL_MODE5;
 	GPIOA->CRL &= ~(GPIO_CRL_CNF3 | GPIO_CRL_CNF4 | GPIO_CRL_CNF5);
-	// for using PB3 and 4, we need to get rid of JTAG functionality
+// for using PB3 and 4, we need to get rid of JTAG functionality
 	AFIO->MAPR &= ~AFIO_MAPR_SWJ_CFG;
 	AFIO->MAPR |= AFIO_MAPR_SWJ_CFG_JTAGDISABLE;
 	GPIOB->CRL &= ~(GPIO_CRL_MODE3 | GPIO_CRL_MODE4 | GPIO_CRL_MODE5);
@@ -101,6 +103,17 @@ void stepperBSetSpeed(uint32_t freqHz) {
 	TIM3->ARR = (uint16_t) arr;
 }
 
+void updatePosition(void) {
+
+	if (GPIOA->ODR & GPIO_ODR_ODR4) {
+
+		motorPosition++;
+	} else {
+
+		motorPosition--;
+	}
+}
+
 // choose direction with DIR pin
 void stepperASetDir(bool dir) {
 
@@ -130,6 +143,7 @@ void TIM2_IRQHandler(void) {
 
 		TIM2->SR &= ~TIM_SR_UIF;
 		GPIOA->ODR ^= GPIO_ODR_ODR5;
+		updatePosition();
 	}
 }
 

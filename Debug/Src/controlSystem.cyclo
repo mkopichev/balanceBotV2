@@ -1,6 +1,8 @@
 ../Src/../Inc/core_cm3.h:1511:22:__NVIC_EnableIRQ	2
 ../Src/../Inc/core_cm3.h:1639:22:__NVIC_SetPriority	2
-../Src/controlSystem.c:7:6:controllerInit	1
-../Src/controlSystem.c:21:6:controlSystemInit	5
-../Src/controlSystem.c:45:7:controllerUpdate	8
-../Src/controlSystem.c:89:6:TIM1_UP_IRQHandler	5
+../Src/controlSystem.c:9:6:angleControllerInit	1
+../Src/controlSystem.c:23:6:positionControllerInit	1
+../Src/controlSystem.c:37:6:controlSystemInit	5
+../Src/controlSystem.c:62:7:angleControllerUpdate	8
+../Src/controlSystem.c:106:7:positionControllerUpdate	8
+../Src/controlSystem.c:150:6:TIM1_UP_IRQHandler	6

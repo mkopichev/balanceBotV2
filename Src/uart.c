@@ -36,9 +36,6 @@ void uartSendDecimal(int32_t data) {
 	if (data < 0) {
 
 		uartSendByte('-');
-	} else {
-
-		uartSendByte(' ');
 	}
 
 	for (uint8_t i = 0; i < 5; i++) {
@@ -74,11 +71,11 @@ void uartSendFloat(float value, uint8_t precision) {
 	}
 }
 
-void uartAddPlot(float angleValue, float outputValue, uint8_t precision) {
+void uartSendData(float angleValue, float outputValue, uint8_t precision) {
 
 	uartSendString("Angle:");
 	uartSendFloat(angleValue, precision);
-	uartSendByte(";");
+	uartSendByte(',');
 	uartSendString("Output:");
 	uartSendFloat(outputValue, precision);
 	uartSendString("\r\n");
