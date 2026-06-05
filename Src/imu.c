@@ -3,7 +3,7 @@
 float filteredAngle = 0.0f;
 float gyroBias = 0.0f;
 float alpha = 0.998f;
-float angleOffset = 6.0f;
+float angleOffset = 5.0f;
 
 uint8_t imuInit(void) {
 
