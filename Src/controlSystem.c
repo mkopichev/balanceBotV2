@@ -7,7 +7,7 @@ Controller_t positionPID;
 uint32_t freq;
 
 void pidInit(Controller_t *controller, float kp, float ki, float kd, float min,
-		float max, float deltaTime) {
+		float max, float integralLimit, float deltaTime) {
 
 	controller->kp = kp;
 	controller->ki = ki;
@@ -17,7 +17,7 @@ void pidInit(Controller_t *controller, float kp, float ki, float kd, float min,
 	controller->outMin = min;
 	controller->outMax = max;
 	controller->dt = deltaTime;
-	controller->integralLim = 1.0f * max;
+	controller->integralLim = integralLimit;
 }
 
 float pidUpdate(Controller_t *controller, float setpoint, float measurement) {
@@ -76,8 +76,8 @@ void controlSystemInit(void) {
 	NVIC_SetPriority(TIM1_UP_IRQn, 15);
 	TIM1->CR1 = TIM_CR1_CEN;
 
-	pidInit(&positionPID, 0.0001f, 0.00001f, 0.0f, -6.0f, 100.0f, 0.01f);
-	pidInit(&anglePID, 10.0f, 100.0f, 0.1f, -100.0f, 100.0f, 0.01f);
+	pidInit(&positionPID, 0.0001f, 0.00001f, 0.0f, -6.0f, 6.0f, 1000.0f, 0.01f);
+	pidInit(&anglePID, 10.0f, 100.0f, 0.1f, -100.0f, 100.0f, 100.0f, 0.01f);
 }
 
 void TIM1_UP_IRQHandler(void) {
@@ -117,7 +117,7 @@ void TIM1_UP_IRQHandler(void) {
 	freq = 0; // convert pidout to step frequency
 	bool direction = (angleControlOutput < 0) ? false : true;
 	float absOut = fabs(angleControlOutput);
-	const float deadband = 0.2f;
+	const float deadband = 1.8f;
 	if (absOut > deadband) {
 
 		float t = (absOut - deadband) / (100.0f - deadband);

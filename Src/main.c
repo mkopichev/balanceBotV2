@@ -13,20 +13,24 @@ int main(void) {
  	if (!cpuFreqInit(PLL_SOURCE)) {
 
 		NVIC_SystemReset();
-		cpuFreqSourceChoosen = HSI_SOURCE;
-		userLedToggle(LED_ON);
+		userLedToggle(LED_C13, LED_ON);
 	}
+
+	userLedsInit();
+ 	userLedToggle(LED_C14, LED_ON);
 	uartInit();
-	userLedInit();
 	stepperABInit();
-	stepperABEnable();
 	i2cInit();
+
 	if (!imuInit()) {
 
-		userLedToggle(LED_ON);
+		NVIC_SystemReset();
 	}
 
+	stepperABEnable();
 	controlSystemInit();
+
+ 	userLedToggle(LED_C14, LED_OFF);
 
 	for (;;) {
 
